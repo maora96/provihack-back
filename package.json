@@ -1,0 +1,19 @@
+{
+  "name": "provihack-back",
+  "version": "1.0.0",
+  "description": "backend for the provi hack's project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maora96/provihack-back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maora96/provihack-back/issues"
+  },
+  "homepage": "https://github.com/maora96/provihack-back#readme"
+}
