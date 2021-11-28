@@ -86,9 +86,28 @@ const updateAllowedProfessionals = async (req, res) => {
 
     // adicionar id do profissional na lista de profissionais permitidos no prontuário
 
-    
+    await Record.findOneAndUpdate(id, { professionals: [...professionals, professionalId]})
+    const updatedRecord = Record.findOne(id);
+
+    res.status(201).json({updatedRecord})
+}
+
+const checkIfProfessionalIsAllowed = async (req, res) => {
+    const { id } = req.params;
+    const { professionalId } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).send(`Nenhum prontuário encontrado com esse id: ${id}`)
+    }
+
+    const foundRecords = await Record.find({id})
+
+    if (foundRecords) {
+        // checar se a id do profissional está na array de profissionais permitidos do prontuário
+    }
 
 }
+
 
 module.exports = {
     addRecord, getRecordById, deleteRecordById, updateRecordById, updateAllowedProfessionals
