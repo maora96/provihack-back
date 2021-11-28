@@ -10,7 +10,7 @@ router.post('/', Patient.addPatient)
 router.post('/signin', Patient.signin)
 
 router.get('/:id', Patient.getPatientById)
-router.patch('/:id', Session.auth, Patient.updatePatientById)
+router.put('/:id', Session.auth, Patient.updatePatientById)
 router.delete('/:id', Session.auth, Patient.deletePatientById)
 
 module.exports = router;

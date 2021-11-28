@@ -34,7 +34,7 @@ const signin = async (req, res) => {
 
 
 const addPatient = async (req, res) => {
-    const { email, name, password, cpf, dx, phone, weight, height, gender, allergies, meds } = req.body;
+    const { email, name, surname, password, cpf, dx, phone, weight, height, gender, allergies, meds } = req.body;
     
     // check if email is already being used
     const existingUser = await Patient.findOne( {email} )
@@ -49,7 +49,7 @@ const addPatient = async (req, res) => {
 
     // add new patient
     const newPatient = new Patient({
-        name, email, password: hashedPassword, cpf, dx, phone, weight, height, gender, allergies, meds
+        name, surname, email, password: hashedPassword, cpf, dx, phone, weight, height, gender, allergies, meds
     })
 
     try {
@@ -98,13 +98,13 @@ const deletePatientById = async (req, res) => {
 
 const updatePatientById = async (req, res) => {
     const { id } = req.params;
-    const { email, name, password, cpf, dx, phone, weight, height, gender, allergies, meds } = req.body;
+    const { email, name, surname, password, cpf, dx, phone, weight, height, gender, allergies, meds } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).send(`Nenhum paciente encontrado com esse id: ${id}`)
     }
 
-    const updatedPatient = { email, name, password, cpf, dx, phone, weight, height, gender, allergies, meds }
+    const updatedPatient = { email, name, surname, password, cpf, dx, phone, weight, height, gender, allergies, meds }
 
     await Patient.findByIdAndUpdate(id, updatedPatient, {new: true})
 

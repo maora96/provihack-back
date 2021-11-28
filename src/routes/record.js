@@ -12,7 +12,8 @@ router.put('/:id', Session.auth, Record.updateRecordById)
 router.delete('/:id', Session.auth, Record.deleteRecordById)
 
 router.get('/:id', Session.auth, Record.getRecordById)
+router.get('/:id/professional',  Record.checkIfProfessionalIsAllowed)
 
-router.put('/:id/professionals', Session.auth, Record.updateAllowedProfessionals)
+router.put('/:id/professional', Session.auth, Record.updateAllowedProfessionals)
 
 module.exports = router;
