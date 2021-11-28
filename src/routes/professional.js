@@ -108,7 +108,7 @@ router.post('/signin', async function(req, res) {
         }
 
         const token = jwt.sign(
-            { email: existingProfessional.email, id: existingProfessional.id},
+            { email: existingProfessional.email, id: existingProfessional.id, , role: 'professional'},
             "provihack",
             { expiresIn: '1h'}
         )

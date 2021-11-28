@@ -20,7 +20,7 @@ const signin = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { email: existingPatient.email, id: existingPatient.id},
+            { email: existingPatient.email, id: existingPatient.id, role: 'patient'},
             "provihack",
             { expiresIn: '1h'}
         )
