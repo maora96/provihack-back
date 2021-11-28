@@ -68,7 +68,9 @@ const deleteProfessionalById = async (req, res) => {
 }
 
 const updateProfessionalById = async (req, res) => {
-    console.log(req.body)
+    const { name, cpf, crm, email, specialty, password } = req.body; 
+
+
     if (!(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(req.body.email))) {
         return res.status(500).send({
             message: 'Email not valid.',
@@ -84,7 +86,7 @@ const updateProfessionalById = async (req, res) => {
         })
     }
     try {
-        await Professional.findByIdAndUpdate(id, req.body);
+        await Professional.findByIdAndUpdate(id, name, cpf, crm, email, specialty, password);
     } catch (error) {
         return res.status(500).send({
             error,

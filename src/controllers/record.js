@@ -1,8 +1,5 @@
 const mongoose = require('mongoose')
-const Patient = require('../models/patient')
 const Record = require('../models/record')
-const jwt = require('jsonwebtoken');
-const Password = require('../utils/password');
 const record = require('../models/record');
 
 
@@ -13,7 +10,7 @@ const addRecord = async (req, res) => {
     try {
 
         // check if patient already has record
-        const hasRecord = await Record.findOne({patientId})
+        const hasRecord = await Record.findOne({patiendId: patientId})
         if (hasRecord) {
             return res.status(404).json( { message: "Paciente já possui prontuário."})
         }
@@ -39,7 +36,7 @@ const getRecordById = async (req, res) => {
 
     try {
         const record = await Record.findById(id);
-        res.status(201).json(addRecord)
+        res.status(201).json(record)
 
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -62,6 +59,8 @@ const deleteRecordById = async (req, res) => {
 }
 
 const updateRecordById = async (req, res) => {
+    // FIX
+    // adicionar fields no update
     const { id } = req.params;
     const { patientId } = req.body;
 
@@ -86,8 +85,13 @@ const updateAllowedProfessionals = async (req, res) => {
 
     // adicionar id do profissional na lista de profissionais permitidos no prontuário
 
-    await Record.findOneAndUpdate(id, { professionals: [...professionals, professionalId]})
-    const updatedRecord = Record.findOne(id);
+    // const record = Record.findById(id);
+    // record.professionals.push(professionalId)
+    // record.save()
+
+    await Record.findOneAndUpdate({_id: id}, {$push: {professionals: professionalId}})
+    
+    const updatedRecord = Record.findById(id);
 
     res.status(201).json({updatedRecord})
 }
@@ -100,15 +104,16 @@ const checkIfProfessionalIsAllowed = async (req, res) => {
         return res.status(404).send(`Nenhum prontuário encontrado com esse id: ${id}`)
     }
 
-    const foundRecords = await Record.find({id})
+    const record = await Record.findById(id)
 
-    if (foundRecords) {
-        // checar se a id do profissional está na array de profissionais permitidos do prontuário
+    if (record.professionals.includes(professionalId)) {
+        res.status(200).json({ status: true})
+    } else {
+        res.status(404).json({ status: false, message: "Profissional não pode acessar esse prontuário."})
     }
-
 }
 
 
 module.exports = {
-    addRecord, getRecordById, deleteRecordById, updateRecordById, updateAllowedProfessionals
+    addRecord, getRecordById, deleteRecordById, updateRecordById, updateAllowedProfessionals, checkIfProfessionalIsAllowed
 }

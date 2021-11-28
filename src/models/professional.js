@@ -6,6 +6,7 @@ const professionalSchema = new mongoose.Schema({
     crm : {type: String, required: true},
     email: {type: String, required: true},
     specialty: {type: String, required: true},
+    password: {type: String, required: true}
 });
 
 module.exports = mongoose.model("Profissional", professionalSchema);

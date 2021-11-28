@@ -20,7 +20,7 @@ const signin = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { email: existingPatient.email, id: existingPatient.id, role: 'patient'},
+            { email: existingPatient.email, id: existingPatient._id, role: 'patient'},
             "provihack",
             { expiresIn: '1h'}
         )
@@ -34,7 +34,7 @@ const signin = async (req, res) => {
 
 
 const addPatient = async (req, res) => {
-    const { email, name, password } = req.body;
+    const { email, name, password, cpf, dx, phone, weight, height, gender, allergies, meds } = req.body;
     
     // check if email is already being used
     const existingUser = await Patient.findOne( {email} )
@@ -49,14 +49,14 @@ const addPatient = async (req, res) => {
 
     // add new patient
     const newPatient = new Patient({
-        name, email, password: hashedPassword
+        name, email, password: hashedPassword, cpf, dx, phone, weight, height, gender, allergies, meds
     })
 
     try {
         await newPatient.save();
         
         const token = jwt.sign(
-            { email: newPatient.email, id: newPatient.id},
+            { email: newPatient.email, id: newPatient._id},
             "provihack",
             { expiresIn: '1h'}
         )
@@ -98,13 +98,13 @@ const deletePatientById = async (req, res) => {
 
 const updatePatientById = async (req, res) => {
     const { id } = req.params;
-    const { email, password, name} = req.body;
+    const { email, name, password, cpf, dx, phone, weight, height, gender, allergies, meds } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(404).send(`Nenhum paciente encontrado com esse id: ${id}`)
     }
 
-    const updatedPatient = { email, password, name }
+    const updatedPatient = { email, name, password, cpf, dx, phone, weight, height, gender, allergies, meds }
 
     await Patient.findByIdAndUpdate(id, updatedPatient, {new: true})
 
