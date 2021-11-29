@@ -8,28 +8,27 @@ const signin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const existingPatient = await Patient.findOne({ email })
+        const existingPatient = await Patient.findOne({ email });
         if (!existingPatient) {
-            return res.status(404).json( {message: "Paciente não existe."})
+            return res.status(404).json( {message: "Paciente não existe."});
         }
 
-        const isPasswordCorrect = Password.check(password, existingPatient.password)
+        const isPasswordCorrect = Password.check(password, existingPatient.password);
 
         if (!isPasswordCorrect) {
-            return res.status(400).json({message: "Credenciais inválidos."})
+            return res.status(400).json({message: "Credenciais inválidos."});
         }
 
         const token = jwt.sign(
             { email: existingPatient.email, id: existingPatient._id, role: 'patient'},
             "provihack",
             { expiresIn: '1h'}
-        )
+        );
 
-        res.status(200).json({ existingPatient, token})
+        res.status(200).json({ existingPatient, token});
     } catch (error) {
-        res.status(500).json( { message: error.message})
+        res.status(500).json( { message: error.message});
     }
-
 }
 
 
@@ -61,7 +60,7 @@ const addPatient = async (req, res) => {
             { expiresIn: '1h'}
         )
 
-        res.status(201).json(newPatient, token)
+        res.status(201).json({newPatient, token})
     } catch(error) {
         res.status(409).json({message: error.message})
     }
