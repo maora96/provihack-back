@@ -4,12 +4,18 @@ const Password = require('../utils/password')
 const Professional = require('../models/professional')
 
 const addProfessional = async (req, res) => {
-    console.log(req.body)
     const { name, cpf, crm, email, specialty, password } = req.body;
 
     if (!(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email))) {
         return res.status(500).send({
             message: 'Email not valid.',
+        })
+    }
+
+    const existingProfessional = await Professional.findOne({ email })
+    if (existingProfessional) {
+        return res.status(500).send({
+            message: "Email already registered.",
         })
     }
 
