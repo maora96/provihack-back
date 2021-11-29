@@ -20,6 +20,6 @@ app.use("/record", recordRoutes)
 app.listen(8080);
 
 // mongodb connection
-mongoose.connect(process.env.ATLAS_URI, {useNewUrlParser:true}, () => {
+mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser:true}, () => {
     console.log("connected to database")
 })
