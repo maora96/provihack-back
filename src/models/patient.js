@@ -7,11 +7,11 @@ const patientSchema = new mongoose.Schema({
     email: {type:String, required: true},
     dx: {type: String, required: true},
     phone: {type: String, required: true}, 
-    weight: {type: Integer},
-    height: {type: Integer},
+    weight: {type: Number},
+    height: {type: Number},
     gender: {type: String, required:true},
     allergies: {type: Array, required: true},
     meds: {type: Array, required:true}
 })
 
-export default mongoose.model("Patient", patientSchema)
+module.exports = mongoose.model("Patient", patientSchema)
